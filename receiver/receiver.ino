@@ -56,7 +56,7 @@ void onDataReceive(const uint8_t *mac, const uint8_t *data, int len)
 
 
       printSteppers();
-      for (int i = 0; i <= stepsPerRevolution; i++) {
+      for (int i = 0; i <= stepsPerRevolution*2; i++) {
         for (int x = 0; x < 4; x++) {
           if (stepCount[x] > position1[x] && !positionReached[x]) {
             steppers[x].step(-1);
@@ -82,7 +82,7 @@ void onDataReceive(const uint8_t *mac, const uint8_t *data, int len)
         printSteppers();
     } else if (data[0] == 2) {
 
-      for (int i = 0; i <= stepsPerRevolution; i++) {
+      for (int i = 0; i <= stepsPerRevolution*2; i++) {
         for (int x = 0; x < 4; x++) {
           if (stepCount[x] > position2[x] && !positionReached[x]) {
             steppers[x].step(-1);
@@ -107,7 +107,7 @@ void onDataReceive(const uint8_t *mac, const uint8_t *data, int len)
 
     } else if (data[0] == 3) {
 
-      for (int i = 0; i <= stepsPerRevolution; i++) {
+      for (int i = 0; i <= stepsPerRevolution*2; i++) {
         for (int x = 0; x < 4; x++) {
           if (stepCount[x] > position3[x] && !positionReached[x]) {
             steppers[x].step(-1);
