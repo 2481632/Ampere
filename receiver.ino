@@ -8,9 +8,9 @@
 #include <avr/power.h> // Required for 16 MHz Adafruit Trinket
 #endif
 
-#define LEDPIN 2
+#define LEDPIN 15
 #define NUMPIXELS 12
-#define DELAYVAL 100 // Time (in milliseconds) to pause between pixels
+#define DELAYVAL 200 // Time (in milliseconds) to pause between pixels
 
 Adafruit_NeoPixel pixels(NUMPIXELS, LEDPIN, NEO_GRB + NEO_KHZ800);
 Preferences preferences;
@@ -19,7 +19,7 @@ Preferences preferences;
 unsigned long previousMillis = 0;
 unsigned long elapsedMillis = 0;
 int debounceTime = 1000;
-int pinTouchSensor = 15;
+int pinTouchSensor = 2;
 
 const int stepsPerRevolution = 2048;
 
@@ -31,9 +31,9 @@ Stepper stepper4(stepsPerRevolution, 18, 4, 5, 0);
 Stepper steppers[4] = {stepper1, stepper2, stepper3, stepper4};
 int stepCount[4] = {0, 0, 0, 0};
 
-int position1[4] = {500, 300, 200, 400};
-int position2[4] = {600, 111, 555, 800};
-int position3[4] = {110, 520, 840, 1190};
+int position1[4] = {2000, 600, 1400, 1000};
+int position2[4] = {200, 1101, 555, 1800};
+int position3[4] = {-1500, -620, -200, -900};
 
 int startPosition[4] = {0, 0, 0, 0};
 
@@ -55,7 +55,7 @@ void onDataReceive(const uint8_t *mac, const uint8_t *data, int len)
           if (stepCount[x] > position1[x] && !positionReached[x]) {
             steppers[x].step(-1);
             stepCount[x] = stepCount[x] - 1;
-          } else if (stepCount[0] < position1[x] && !positionReached[x]) {
+          } else if (stepCount[x] < position1[x] && !positionReached[x]) {
             steppers[x].step(1);
             stepCount[x] = stepCount[x] + 1;
           } else {
@@ -64,8 +64,10 @@ void onDataReceive(const uint8_t *mac, const uint8_t *data, int len)
         }
 
         if (positionReached[0] && positionReached[1] && positionReached[2] && positionReached[3]) {
-          //preferences.putUInt();
-          //writeIntIntoEEPROM(20, stepCount[0]);
+          preferences.putUInt("1", stepCount[0]);
+          preferences.putUInt("2", stepCount[1]);
+          preferences.putUInt("3", stepCount[2]);
+          preferences.putUInt("4", stepCount[3]);
           //writeIntIntoEEPROM(40, stepCount[1]);
           //writeIntIntoEEPROM(60, stepCount[2]);
           //writeIntIntoEEPROM(80, stepCount[3]);
@@ -81,7 +83,7 @@ void onDataReceive(const uint8_t *mac, const uint8_t *data, int len)
           if (stepCount[x] > position2[x] && !positionReached[x]) {
             steppers[x].step(-1);
             stepCount[x] = stepCount[x] - 1;
-          } else if (stepCount[0] < position2[x] && !positionReached[x]) {
+          } else if (stepCount[x] < position2[x] && !positionReached[x]) {
             steppers[x].step(1);
             stepCount[x] = stepCount[x] + 1;
           } else {
@@ -90,6 +92,10 @@ void onDataReceive(const uint8_t *mac, const uint8_t *data, int len)
         }
 
         if (positionReached[0] && positionReached[1] && positionReached[2] && positionReached[3]) {
+          preferences.putUInt("1", stepCount[0]);
+          preferences.putUInt("2", stepCount[1]);
+          preferences.putUInt("3", stepCount[2]);
+          preferences.putUInt("4", stepCount[3]);
         //  writeIntIntoEEPROM(20, stepCount[0]);
         //  writeIntIntoEEPROM(40, stepCount[1]);
          // writeIntIntoEEPROM(60, stepCount[2]);
@@ -106,7 +112,7 @@ void onDataReceive(const uint8_t *mac, const uint8_t *data, int len)
           if (stepCount[x] > position3[x] && !positionReached[x]) {
             steppers[x].step(-1);
             stepCount[x] = stepCount[x] - 1;
-          } else if (stepCount[0] < position3[x] && !positionReached[x]) {
+          } else if (stepCount[x] < position3[x] && !positionReached[x]) {
             steppers[x].step(1);
             stepCount[x] = stepCount[x] + 1;
           } else {
@@ -115,6 +121,10 @@ void onDataReceive(const uint8_t *mac, const uint8_t *data, int len)
         }
 
         if (positionReached[0] && positionReached[1] && positionReached[2] && positionReached[3]) {
+           preferences.putUInt("1", stepCount[0]);
+          preferences.putUInt("2", stepCount[1]);
+          preferences.putUInt("3", stepCount[2]);
+          preferences.putUInt("4", stepCount[3]);
         //  writeIntIntoEEPROM(20, stepCount[0]);
   //        writeIntIntoEEPROM(40, stepCount[1]);
 //          writeIntIntoEEPROM(60, stepCount[2]);
@@ -165,13 +175,26 @@ void setup()
   // END of Trinket-specific code.
   pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
 
+  stepCount[0] = preferences.getUInt("1", 0);
+  stepCount[1] = preferences.getUInt("2", 0);
+  stepCount[2] = preferences.getUInt("3", 0);
+  stepCount[3] = preferences.getUInt("4", 0);
+
+    Serial.println("Stepper 1: " + stepCount[0]);
+  Serial.println("Stepper 2: " + stepCount[1]);
+  Serial.println("Stepper 3: " + stepCount[2]);
+  Serial.println("Stepper 4: " + stepCount[3]);
+           // int setpper2poss = preferences.getUInt("two", 0);
+          //  int setpper3poss = preferences.getUInt("four", 0);
+          //  int setpper4poss = preferences.getUInt("three", 0);
+
   boolean positionReached[4] = {false, false, false, false};
   for (int i = 0; i <= stepsPerRevolution; i++) {
     for (int x = 0; x < 4; x++) {
       if (stepCount[x] > startPosition[x] && !positionReached[x]) {
         steppers[x].step(-1);
         stepCount[x] = stepCount[x] - 1;
-      } else if (stepCount[0] < startPosition[x] && !positionReached[x]) {
+      } else if (stepCount[x] < startPosition[x] && !positionReached[x]) {
         steppers[x].step(1);
         stepCount[x] = stepCount[x] + 1;
       } else {
@@ -180,19 +203,23 @@ void setup()
     }
 
     if (positionReached[0] && positionReached[1] && positionReached[2] && positionReached[3]) {
+       preferences.putUInt("1", stepCount[0]);
+          preferences.putUInt("2", stepCount[1]);
+          preferences.putUInt("3", stepCount[2]);
+          preferences.putUInt("4", stepCount[3]);
      // writeIntIntoEEPROM(20, stepCount[0]);
       //writeIntIntoEEPROM(40, stepCount[1]);
       //writeIntIntoEEPROM(60, stepCount[2]);
       //writeIntIntoEEPROM(80, stepCount[3]);
       break;
     }
-    delay(delayPerStep);
+    delay(10);
   }
 
-stepCount[0] = 0;
-stepCount[1] = 0;
-stepCount[2] = 0;
-stepCount[3] = 0;
+//stepCount[0] = 0;
+//stepCount[1] = 0;
+//stepCount[2] = 0;
+//stepCount[3] = 0;
   Serial.println("Stepper 1: " + stepCount[0]);
   Serial.println("Stepper 2: " + stepCount[1]);
   Serial.println("Stepper 3: " + stepCount[2]);
@@ -233,42 +260,159 @@ void loop() {
 void handleSerial() {
   if(Serial.available() > 0){
         String input = Serial.readString();
-        if (input.startsWith("eeprom", 0)) {
-           // int setpper1pos = EEPROM.readInt(20);
-           // int setpper2pos = EEPROM.readInt(40);
-           // int setpper3pos = EEPROM.readInt(60);
-           // int setpper4pos = EEPROM.readInt(80);
-           // Serial.println("Stepper 1 Position: " + setpper1pos);
-           // Serial.println("Stepper 2 Position: " + setpper2pos);
-           // Serial.println("Stepper 3 Position: " + setpper3pos);
-           // Serial.println("Stepper 4 Position: " + setpper4pos);
+        if (input.startsWith("read", 0)) {
+           int setpper1pos = preferences.getUInt("1", 0);
+           int setpper2pos = preferences.getUInt("2", 0);
+           int setpper3pos = preferences.getUInt("3", 0);
+           int setpper4pos = preferences.getUInt("4", 0);
+           Serial.println("Stepper 1 Position: " + setpper1pos);
+           Serial.println("Stepper 2 Position: " + setpper2pos);
+           Serial.println("Stepper 3 Position: " + setpper3pos);
+           Serial.println("Stepper 4 Position: " + setpper4pos);
         } else if (input.startsWith("reset", 0)) {
-            int setpper1pos = 0;
-            int setpper2pos = 0;
-            int setpper3pos = 0;
-            int setpper4pos = 0;
+          preferences.putUInt("1", 0);
+          preferences.putUInt("2", 0);
+          preferences.putUInt("3", 0);
+          preferences.putUInt("4", 0);
 
-           // EEPROM.put(0, setpper1pos);
-           // EEPROM.put(40, setpper1pos);
-           // EEPROM.put(60, setpper1pos);
-           // EEPROM.put(80, setpper1pos);
+                     int setpper1pos = preferences.getUInt("1", 0);
+           int setpper2pos = preferences.getUInt("2", 0);
+           int setpper3pos = preferences.getUInt("3", 0);
+           int setpper4pos = preferences.getUInt("4", 0);
+           Serial.println("Stepper 1 Position: " + setpper1pos);
+           Serial.println("Stepper 2 Position: " + setpper2pos);
+           Serial.println("Stepper 3 Position: " + setpper3pos);
+           Serial.println("Stepper 4 Position: " + setpper4pos);
+        } else if (input.startsWith("1", 0)) {
+          if (!blocked) {
+            blocked = true;
+            boolean positionReached[4] = {false, false, false, false};
+      for (int i = 0; i <= stepsPerRevolution; i++) {
+        for (int x = 0; x < 4; x++) {
+          if (stepCount[x] > position1[x] && !positionReached[x]) {
+            steppers[x].step(-1);
+            stepCount[x] = stepCount[x] - 1;
+          } else if (stepCount[x] < position1[x] && !positionReached[x]) {
+            steppers[x].step(1);
+            stepCount[x] = stepCount[x] + 1;
+          } else {
+            positionReached[x] = true;
+          }
+        }
 
-           // int setpper1poss = preferences.getUInt("one", 0);
-           // int setpper2poss = preferences.getUInt("two", 0);
-          //  int setpper3poss = preferences.getUInt("four", 0);
-          //  int setpper4poss = preferences.getUInt("three", 0);
-            
-         //   EEPROM.get(0, setpper1poss);
-           // EEPROM.get(40, setpper1poss);
-          //  EEPROM.get(60, setpper1poss);
-          //  EEPROM.get(80, setpper1poss);
-            
-         //   Serial.println("Stepper 1 Position: " + setpper1poss);
-         //   Serial.println(setpper1poss);
-         //   Serial.println("Stepper 2 Position: " + setpper2poss);
-         //   Serial.println("Stepper 3 Position: " + setpper3poss);
-         //   Serial.println("Stepper 4 Position: " + setpper4poss);
-           // EEPROM.writeInt(0, 1000);
+        if (positionReached[0] && positionReached[1] && positionReached[2] && positionReached[3]) {
+           Serial.println(stepCount[0]);
+          Serial.println(stepCount[1]);
+          Serial.println(stepCount[2]);
+          Serial.println(stepCount[3]);
+          preferences.putUInt("1", stepCount[0]);
+          preferences.putUInt("2", stepCount[1]);
+          preferences.putUInt("3", stepCount[2]);
+          preferences.putUInt("4", stepCount[3]);
+          
+          break;
+        }
+        delay(delayPerStep);
+      }
+      blocked = false;
+          }
+        } else if (input.startsWith("2", 0)) {
+          if (!blocked) {
+            blocked = true;
+            boolean positionReached[4] = {false, false, false, false};
+      for (int i = 0; i <= stepsPerRevolution; i++) {
+        for (int x = 0; x < 4; x++) {
+          if (stepCount[x] > position2[x] && !positionReached[x]) {
+            steppers[x].step(-1);
+            stepCount[x] = stepCount[x] - 1;
+          } else if (stepCount[x] < position2[x] && !positionReached[x]) {
+            steppers[x].step(1);
+            stepCount[x] = stepCount[x] + 1;
+          } else {
+            positionReached[x] = true;
+          }
+        }
+
+        if (positionReached[0] && positionReached[1] && positionReached[2] && positionReached[3]) {
+           Serial.println(stepCount[0]);
+          Serial.println(stepCount[1]);
+          Serial.println(stepCount[2]);
+          Serial.println(stepCount[3]);
+          preferences.putUInt("1", stepCount[0]);
+          preferences.putUInt("2", stepCount[1]);
+          preferences.putUInt("3", stepCount[2]);
+          preferences.putUInt("4", stepCount[3]);
+          blocked = false;
+          break;
+        }
+        delay(delayPerStep);
+      }
+                blocked = false;
+          }
+        } else if (input.startsWith("3", 0)) {
+          if (!blocked) {
+            blocked = true;
+            boolean positionReached[4] = {false, false, false, false};
+      for (int i = 0; i <= stepsPerRevolution; i++) {
+        for (int x = 0; x < 4; x++) {
+          if (stepCount[x] > position3[x] && !positionReached[x]) {
+            steppers[x].step(-1);
+            stepCount[x] = stepCount[x] - 1;
+          } else if (stepCount[x] < position3[x] && !positionReached[x]) {
+            steppers[x].step(1);
+            stepCount[x] = stepCount[x] + 1;
+          } else {
+            positionReached[x] = true;
+          }
+        }
+
+        if (positionReached[0] && positionReached[1] && positionReached[2] && positionReached[3]) {
+          Serial.println(stepCount[0]);
+          Serial.println(stepCount[1]);
+          Serial.println(stepCount[2]);
+          Serial.println(stepCount[3]);
+          preferences.putUInt("1", stepCount[0]);
+          preferences.putUInt("2", stepCount[1]);
+          preferences.putUInt("3", stepCount[2]);
+          preferences.putUInt("4", stepCount[3]);
+          break;
+        }
+        delay(delayPerStep);
+      }
+                blocked = false;
+          }
+        } } else if (input.startsWith("0", 0)) {
+          if (!blocked) {
+            blocked = true;
+            boolean positionReached[4] = {false, false, false, false};
+      for (int i = 0; i <= stepsPerRevolution; i++) {
+        for (int x = 0; x < 4; x++) {
+          if (stepCount[x] > startPosition[x] && !positionReached[x]) {
+            steppers[x].step(-1);
+            stepCount[x] = stepCount[x] - 1;
+          } else if (stepCount[x] < startPosition[x] && !positionReached[x]) {
+            steppers[x].step(1);
+            stepCount[x] = stepCount[x] + 1;
+          } else {
+            positionReached[x] = true;
+          }
+        }
+
+        if (positionReached[0] && positionReached[1] && positionReached[2] && positionReached[3]) {
+          Serial.println(stepCount[0]);
+          Serial.println(stepCount[1]);
+          Serial.println(stepCount[2]);
+          Serial.println(stepCount[3]);
+          preferences.putUInt("1", stepCount[0]);
+          preferences.putUInt("2", stepCount[1]);
+          preferences.putUInt("3", stepCount[2]);
+          preferences.putUInt("4", stepCount[3]);
+          break;
+        }
+        delay(delayPerStep);
+      }
+                blocked = false;
+          }
         } else {
           Serial.println(input);
         }
