@@ -47,14 +47,16 @@ Vary: Accept
         "created": "2023-01-31T14:18:26.159106Z",
         "usage": 66
     }
-}
+]
 ```
 
 ### Get computed values of device
 
 Only ```GET``` is allowed. 
 
-```/api/device/<device_id>/computed/```
+```
+/api/device/<device_id>/computed/
+```
 
 This will return a json object containing the current, avg day, avg month and avg year values. Some values may be __null__ if no coresponding entries are found.
 
