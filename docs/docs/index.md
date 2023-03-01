@@ -7,3 +7,5 @@
 - Jaspar Neukirch, Design
 - Henry el Bahnasawy, Computer Science
 - Marvin Hagemeister, Computer Science
+
+Check out the other projects: [https://www.codingixd.org/lets-get-physical/](https://www.codingixd.org/lets-get-physical/)
