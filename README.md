@@ -1,5 +1,7 @@
 # Ampere
 
+![./docs/docs/images/Ampere_Poster_HQ-scaled-e1676364998606-1024x535.jpg](./docs/docs/images/Ampere_Poster_HQ-scaled-e1676364998606-1024x535.jpg)
+
 ## About
 
 Ampere helps users keep better track of their own electricity consumption. Paying attention to one’s own electricity consumption is becoming increasingly important.
