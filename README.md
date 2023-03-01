@@ -15,3 +15,8 @@ Change to docs directory and execute
 ```
 mkdocs serve
 ```
+
+## Contributors
+
+- https://github.com/henry-hft
+- https://github.com/jasperneu
