@@ -18,6 +18,12 @@ Change to docs directory and execute
 mkdocs serve
 ```
 
+## Function video 
+
+Check out our function video: 
+
+![](./video/dataphys_video_28-02-2023_v0.2.mp4)
+
 ## Contributors
 
 - https://github.com/henry-hft
