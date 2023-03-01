@@ -1,8 +1,9 @@
-# Energy-Lighthouse
+# Ampere
 
-## Project layout
+![./images/Ampere_Poster_HQ-scaled-e1676364998606-1024x535.jpg](./images/Ampere_Poster_HQ-scaled-e1676364998606-1024x535.jpg)
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+## Contributors 
+
+- Jaspar Neukirch, Design
+- Henry el Bahnasawy, Computer Science
+- Marvin Hagemeister, Computer Science
