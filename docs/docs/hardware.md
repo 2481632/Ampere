@@ -8,6 +8,8 @@
 - **Touch Sensor:** TTP223 (kapazitiv)
 - **Ringlicht:** AZDelivery 5V RGB LED Ring (50mm)
 - **USB-Buchse:** USB-C (SMT)
+- **Tasmota Module**: D1 Mini NodeMcu (ESP8266-12F)
+- **Zigbee Module:** CC2530 (2,4 GHz)
 
 ## Setup
 
