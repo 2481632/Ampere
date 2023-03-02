@@ -1,10 +1,11 @@
-site_name: Energy-Lighthouse
+site_name: Ampere
 nav:
     - Home: index.md # ./docs/index.md
     - About: about.md # ./docs/about.md
     - Install: install.md # ./docs/install.md
     - API: api.md # ./docs/api.md
+    - Hardware: hardware.md # ./docs/hardware.md
+    - Software: software.md # ./docs/software.md
 theme: readthedocs
 features:
     - content.code.copy
-
