@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Install - Ampere</title>
+    <title>Hardware - Ampere</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Install";
-        var mkdocs_page_input_path = "install.md";
+        var mkdocs_page_name = "Hardware";
+        var mkdocs_page_input_path = "hardware.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -48,32 +48,36 @@
                 <li class="toctree-l1"><a class="reference internal" href="../about/">About</a>
                 </li>
               </ul>
-              <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">Install</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#webservices">Webservices</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#install-requirements">Install requirements</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#initialize-project">Initialize project</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#create-superuser">Create superuser</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#run-dev-server">Run dev server</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#add-devices-to-device-list">Add devices to device list</a>
-    </li>
-        </ul>
-    </li>
-    </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../install/">Install</a>
                 </li>
               </ul>
               <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../api/">API</a>
                 </li>
               </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../hardware/">Hardware</a>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Hardware</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#komponenten">Komponenten</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#schrittmotor-1">Schrittmotor 1:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#schrittmotor-2">Schrittmotor 2:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#schrittmotor-3">Schrittmotor 3:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#schrittmotor-4">Schrittmotor 4:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#touch-sensor">Touch Sensor:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ringlicht">Ringlicht</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
                 </li>
               </ul>
               <ul>
@@ -94,7 +98,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
-      <li>Install</li>
+      <li>Hardware</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -103,32 +107,49 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="install">Install</h1>
-<h2 id="webservices">Webservices</h2>
-<h3 id="install-requirements">Install requirements</h3>
-<p>Install all dependencys.</p>
-<pre><code>pip -r requirements.txt
-</code></pre>
-<h3 id="initialize-project">Initialize project</h3>
-<pre><code>python manage.py makemigrations api
-python manage.py migrate
-</code></pre>
-<h3 id="create-superuser">Create superuser</h3>
-<p>If not already done, execute the following command to create a superuser. You will need one to add devices to the device list. </p>
-<pre><code>python manage.py createsuperuser
-</code></pre>
-<h3 id="run-dev-server">Run dev server</h3>
-<p>Start a dev server on port 8000.</p>
-<pre><code>python manage.py runserver
-</code></pre>
-<h3 id="add-devices-to-device-list">Add devices to device list</h3>
-<p>Visit <code>http://127.0.0.1:8000/admin/</code> and log in with you created user. Navigate to <code>devices</code> to add devices.</p>
+                <h1 id="hardware">Hardware</h1>
+<h2 id="komponenten">Komponenten</h2>
+<ul>
+<li><strong>Microcontroller:</strong> ESP32 NodeMCU (CP2102)</li>
+<li><strong>Schrittmotoren:</strong> 4x 28BYJ-48 (5V)</li>
+<li><strong>Motortreiber:</strong> 4x ULN2003</li>
+<li><strong>Touch Sensor:</strong> TTP223 (kapazitiv)</li>
+<li><strong>Ringlicht:</strong> AZDelivery 5V RGB LED Ring (50mm)</li>
+<li><strong>USB-Buchse:</strong> USB-C (SMT)</li>
+<li><strong>Tasmota Module</strong>: D1 Mini NodeMcu (ESP8266-12F)</li>
+<li><strong>Zigbee Module:</strong> CC2530 (2,4 GHz)</li>
+</ul>
+<h2 id="setup">Setup</h2>
+<h3 id="schrittmotor-1">Schrittmotor 1:</h3>
+<ul>
+<li><strong>GPIO-Pins:</strong> 13, 12, 14, 27</li>
+</ul>
+<h3 id="schrittmotor-2">Schrittmotor 2:</h3>
+<ul>
+<li><strong>GPIO-Pins:</strong> 26, 25, 33, 32</li>
+</ul>
+<h3 id="schrittmotor-3">Schrittmotor 3:</h3>
+<ul>
+<li><strong>GPIO-Pins:</strong> 23, 22, 21, 19</li>
+</ul>
+<h3 id="schrittmotor-4">Schrittmotor 4:</h3>
+<ul>
+<li><strong>GPIO-Pins:</strong> 18, 5, 4, 0</li>
+</ul>
+<h3 id="touch-sensor">Touch Sensor:</h3>
+<ul>
+<li><strong>GPIO-Pin:</strong> 2</li>
+</ul>
+<h3 id="ringlicht">Ringlicht</h3>
+<ul>
+<li><strong>GPIO-Pin:</strong> 15</li>
+</ul>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../about/" class="btn btn-neutral float-left" title="About"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../api/" class="btn btn-neutral float-right" title="API">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../api/" class="btn btn-neutral float-left" title="API"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../software/" class="btn btn-neutral float-right" title="Software">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -151,10 +172,10 @@ python manage.py migrate
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../about/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../api/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../api/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../software/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
